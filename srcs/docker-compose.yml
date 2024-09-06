@@ -13,6 +13,9 @@ services:
       - inception
     env_file:
       - .env
+    volumes:
+      - mariadb:/var/lib/mysql
+    restart: no-failure
 
   nginx:
     build: requirements/nginx
@@ -22,6 +25,7 @@ services:
       - "443:443"
     networks:
       - inception
+    restart: no-failure
 
   wordpress:
     build: requirements/wordpress
@@ -29,6 +33,7 @@ services:
     container_name: wordpress
     networks:
       - inception
+    restart: no-failure
 
 volumes:
   mariadb:
