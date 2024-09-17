@@ -12,8 +12,8 @@ RUN apt update && \
 
 RUN service mariadb start && \
 	mysql -e "CREATE DATABASE IF NOT EXISTS $DATABASENAME;" && \
-	mysql -e "CREATE USER '$DATABASEUSER'@'localhost' IDENTIFIED BY '$DATABASEPASSWORD';" && \
-	mysql -e "GRANT ALL PRIVILEGES ON $DATABASENAME.* TO '$DATABASEUSER'@'localhost';" && \
+	mysql -e "CREATE USER '$DATABASEUSER'@'%' IDENTIFIED BY '$DATABASEPASSWORD';" && \
+	mysql -e "GRANT ALL PRIVILEGES ON $DATABASENAME.* TO '$DATABASEUSER'@'%';" && \
 	mysql -e "FLUSH PRIVILEGES;" && \
 	mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$ROOTPASSWORD';"
 

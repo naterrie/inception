@@ -5,6 +5,7 @@ while ! mariadb -h ${DATABASEHOST} -u ${DATABASEUSER} -p${DATABASEPASSWORD} -e "
 	echo "Waiting for MariaDB to be ready..."
 	sleep 1
 done
+	echo "MariaDB is ready!"
 
 # Check if WordPress is already installed
 if [ ! -d /var/www/html/wordpress ]; then
