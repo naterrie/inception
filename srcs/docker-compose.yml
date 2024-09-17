@@ -1,5 +1,7 @@
 services:
+
   mariadb:
+    container_name: mariadb
     build:
       context: requirements/mariadb
       args:
@@ -8,34 +10,46 @@ services:
         - DATABASEUSER
         - DATABASEPASSWORD
     image: mariadb
-    container_name: mariadb
-    networks:
-      - inception
     env_file:
       - .env
+    networks:
+      - inception
     volumes:
       - mariadb:/var/lib/mysql
-    restart: no-failure
+    restart: on-failure
 
   nginx:
-    build: requirements/nginx
-    image: nginx
     container_name: nginx
+    build:
+      context: requirements/nginx
+    image: nginx
+    env_file: .env
     ports:
       - "443:443"
     networks:
       - inception
-    restart: no-failure
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - wordpress
+    restart: on-failure
 
   wordpress:
-    build: requirements/wordpress
-    image: wordpress
     container_name: wordpress
+    build:
+      context: requirements/wordpress
+    image: wordpress
+    env_file: .env
     networks:
       - inception
-    restart: no-failure
+    volumes:
+      - wordpress:/var/www/html
+    depends_on:
+      - mariadb
+    restart: on-failure
 
 volumes:
+
   mariadb:
     driver: local
     name: mariadb
